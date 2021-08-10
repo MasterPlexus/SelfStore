@@ -5,8 +5,6 @@ version: 2.1
 # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
 orbs:
   android: circleci/android@1.0.3
-  gh: circleci/github-cli@1.0
-  node: circleci/node@4.3
   
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
@@ -47,9 +45,19 @@ jobs:
           path: app/build/outputs/apk/
           destination: apks/
      
-      - run: 
-         name: Push the release to Github
-         command: ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME v1.0.$CIRCLE_BUILD_NUM /tmp/binaries/ || true
+         
+  publish-github-release:
+      docker:
+        - image: cibuilds/github:0.10
+      steps:
+        - attach_workspace:
+            at: ./artifacts
+        - run:
+            name: "Publish Release on GitHub"
+            command: |
+              VERSION=$(my-binary --version)
+              ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
+
 
 workflows:
   # Below is the definition of your workflow.
@@ -59,3 +67,4 @@ workflows:
   sample: 
     jobs:
       - build-and-test
+      - publish-github-release
