@@ -28,10 +28,6 @@ jobs:
 
       # make gradlew startable
       - run:
-         name: Get release tool
-         command: go get github.com/tcnksm/ghr
-         
-      - run:
           name: chmod permissions
           command: chmod +x ./gradlew
 
