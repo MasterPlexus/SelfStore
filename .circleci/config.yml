@@ -17,15 +17,6 @@ jobs:
       # Checkout the code as the first step.
       - checkout
 
-      # The next step will run the unit tests
-      #- android/run-tests:
-      #    test-command: ./gradlew lint testDebug --continue
-
-      # Then start the emulator and run the Instrumentation tests!
-      #- android/start-emulator-and-run-tests:
-      #    test-command: ./gradlew connectedDebugAndroidTest
-      #    system-image: system-images;android-25;google_apis;x86
-
       # make gradlew startable
       - run:
           name: chmod permissions
@@ -40,6 +31,15 @@ jobs:
       - store_artifacts:
           path: app/build/outputs/apk/
           destination: apks/
+          
+      # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job.
+      - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+          # taken to be the root directory of the workspace.
+          root: ./artifacts/
+          # Must be relative path from root
+          paths:
+            - apks
      
          
   publish-github-release:
