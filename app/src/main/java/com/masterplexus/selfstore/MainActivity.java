@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Start Load", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                String sURL = "https://github.com/nextcloud/news-android/releases"; //just a string
+                String sURL = "https://github.com/MasterPlexus/SelfStore/releases";
 
                 GetAPKs dotask = new GetAPKs();
                 dotask.sURL = sURL;
