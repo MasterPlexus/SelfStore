@@ -36,10 +36,10 @@ jobs:
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
           # taken to be the root directory of the workspace.
-          root: ./artifacts/
+          root: /home/circleci/project/app/build/outputs/apk/release/
           # Must be relative path from root
           paths:
-            - apks
+            - app-release-unsigned.apk
      
          
   publish-github-release:
@@ -47,12 +47,12 @@ jobs:
         - image: cibuilds/github:0.10
       steps:
         - attach_workspace:
-            at: ./artifacts
+            at:  /home/circleci/project/app/build/outputs/apk/release/
         - run:
             name: "Publish Release on GitHub"
             command:  ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME v0.0.$CIRCLE_BUILD_NUM ./artifacts/
               #VERSION=$(my-binary --version)
-              #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
+              #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /home/circleci/project/app/build/outputs/apk/release/
 
 
 workflows:
