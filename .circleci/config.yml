@@ -50,7 +50,7 @@ jobs:
             at:  /home/circleci/project/app/build/outputs/apk/release/
         - run:
             name: "Publish Release on GitHub"
-            command:  ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME v0.0.$CIRCLE_BUILD_NUM ./artifacts/
+            command:  ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME v0.0.$CIRCLE_BUILD_NUM /home/circleci/project/app/build/outputs/apk/release/
               #VERSION=$(my-binary --version)
               #ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /home/circleci/project/app/build/outputs/apk/release/
 
