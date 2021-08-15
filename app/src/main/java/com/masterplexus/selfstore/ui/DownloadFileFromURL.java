@@ -1,20 +1,29 @@
 package com.masterplexus.selfstore.ui;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.os.Build.VERSION.SDK_INT;
 import static androidx.core.content.ContextCompat.getSystemService;
 
+import android.Manifest;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.masterplexus.selfstore.RegExSnipped;
@@ -39,13 +48,14 @@ public class DownloadFileFromURL extends AsyncTask<String, String, String> {
     protected String doInBackground(String... arg0) {
         try {
             URL url = new URL(arg0[0]);
+            requestPermission();
             String AppName =  new RegExSnipped().GetSearch(url.getFile().toString(),".*/(.*?.apk)");
             HttpURLConnection c = (HttpURLConnection) url.openConnection();
             c.setRequestMethod("GET");
             //c.setDoOutput(true);
             c.connect();
 
-            String PATH =  Environment.getExternalStorageDirectory().getPath();
+            String PATH =  Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
             File file = new File(PATH + "/SelfStore");
             file.mkdirs();
             File outputFile = new File(file, AppName);
@@ -93,5 +103,23 @@ public class DownloadFileFromURL extends AsyncTask<String, String, String> {
 
         }
 
+    private boolean checkPermissionStorrage() {
+        if (SDK_INT >= Build.VERSION_CODES.R) {
+            return Environment.isExternalStorageManager();
+        } else {
+            return false;
+        }
     }
+
+    private void requestPermission() {
+        if (!checkPermissionStorrage()) {
+
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+            Uri uri = Uri.fromParts("package", context.getPackageName(), null);
+            intent.setData(uri);
+            context.startActivity(intent);
+        }
+    }
+}
 
