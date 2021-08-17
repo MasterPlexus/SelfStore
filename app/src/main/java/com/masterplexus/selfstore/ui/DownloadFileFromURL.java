@@ -66,7 +66,7 @@ public class DownloadFileFromURL extends AsyncTask<String, String, String> {
             fos.close();
             is.close();
 
-            checkInstallPermission();
+            //checkInstallPermission();
 
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
