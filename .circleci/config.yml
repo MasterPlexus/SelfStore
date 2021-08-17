@@ -43,7 +43,7 @@ jobs:
           root: /home/circleci/project/app/build/outputs/apk/debug/
           # Must be relative path from root
           paths:
-            - selfstore_debug_v0.0.{$CIRCLE_BUILD_NUM}.apk
+            - *.apk
      
          
   publish-github-release:
