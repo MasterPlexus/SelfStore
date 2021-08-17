@@ -51,7 +51,7 @@ jobs:
         - image: cibuilds/github:0.10
       steps:
         - attach_workspace:
-            at:  /home/circleci/project/app/build/outputs/apk/debug/
+            at:  /home/circleci/project/app/build/outputs/apk/
         - run:
             name: "Publish Release on GitHub"
             command:  ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME v0.0.$CIRCLE_BUILD_NUM /home/circleci/project/app/build/outputs/apk/debug/
