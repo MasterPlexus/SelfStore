@@ -30,7 +30,7 @@ jobs:
 
       - run:
           name: Rename apk
-          command: mv /home/circleci/project/app/build/outputs/apk/debug/app-debug.apk /home/circleci/project/app/build/outputs/apk/debug/selfstore_debug_v0.0.{$CIRCLE_BUILD_NUM}.apk
+          command: mv /home/circleci/project/app/build/outputs/apk/debug/app-debug.apk /home/circleci/project/app/build/outputs/apk/debug/selfstore_debug_v0.0.$CIRCLE_BUILD_NUM.apk
             
       - store_artifacts:
           path: app/build/outputs/apk/
@@ -43,7 +43,7 @@ jobs:
           root: /home/circleci/project/app/build/outputs/apk/debug/
           # Must be relative path from root
           paths:
-            - *.apk
+            - selfstore_debug_v0.0.$CIRCLE_BUILD_NUM.apk
      
          
   publish-github-release:
