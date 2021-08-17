@@ -40,10 +40,10 @@ jobs:
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
           # taken to be the root directory of the workspace.
-          root: /home/circleci/project/app/build/outputs/apk/debug/
+          root: /home/circleci/project/app/build/outputs/apk/
           # Must be relative path from root
           paths:
-            - selfstore_debug_v0.0.$CIRCLE_BUILD_NUM.apk
+            - debug/*
      
          
   publish-github-release:
