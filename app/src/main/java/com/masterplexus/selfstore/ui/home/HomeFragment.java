@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,40 @@ public class HomeFragment extends Fragment {
     public static void setText(String text) {
         TextView t = (TextView) root.findViewById(R.id.text_home);
         t.setText(text);
+    }
+
+    public static boolean installationIsRunning() {
+        Button t = (Button) root.findViewById(R.id.showRunner);
+        return t.isShown();
+    }
+
+    public void setRunning() {
+        Button t = (Button) root.findViewById(R.id.showRunner);
+        t.setVisibility(View.VISIBLE);
+    }
+
+    public void unsetRunning() {
+        Button t = (Button) root.findViewById(R.id.showRunner);
+        t.setVisibility(View.GONE);
+    }
+
+    public void setNewApptoInstall(String newApp) {
+        TextView t = (TextView) root.findViewById(R.id.text_buffer);
+        t.setVisibility(View.VISIBLE);
+        String content =t.getText().toString();
+        if (content.isEmpty()) {
+            content = newApp;
+        } else {
+            content = content + ";" + newApp;
+        }
+        t.setText(content);
+    }
+
+    public String getNextApptoInstall() {
+        TextView t = (TextView) root.findViewById(R.id.text_buffer);
+
+        return content;
+
     }
 
     @Override

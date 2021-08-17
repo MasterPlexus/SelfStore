@@ -2,9 +2,6 @@ package com.masterplexus.selfstore.ui;
 
 import static android.os.Build.VERSION.SDK_INT;
 
-import static androidx.core.app.ActivityCompat.requestPermissions;
-import static androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale;
-
 import android.Manifest;
 
 import android.content.Context;
