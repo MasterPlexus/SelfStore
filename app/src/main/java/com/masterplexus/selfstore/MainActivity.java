@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Start Load", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Start Load Selfstore", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
                 String sURL = "https://github.com/MasterPlexus/SelfStore/releases";
@@ -41,6 +41,22 @@ public class MainActivity extends AppCompatActivity {
                 GetAPKs dotask = new GetAPKs();
                 dotask.sURL = sURL;
                 dotask.execute();
+                
+                Snackbar.make(view, "Start Load DNS66", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                
+                sURL = "https://github.com/julian-klode/dns66/releases";
+                GetAPKs dotask2 = new GetAPKs();
+                dotask2.sURL = sURL;
+                dotask2.execute();
+                
+                Snackbar.make(view, "Start Load News-App", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                
+                sURL = "https://github.com/nextcloud/news-android/releases";
+                GetAPKs dotask3 = new GetAPKs();
+                dotask3.sURL = sURL;
+                dotask3.execute();
 
             }
         });
