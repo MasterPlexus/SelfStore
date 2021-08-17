@@ -18,14 +18,15 @@ import java.nio.charset.StandardCharsets;
 public class GetAPKs extends AsyncTask<Void, Void, String> {
     private static final String TAG = "GetAPKs";
 
-    String sURL;
+    String[] ListSources;
+    Integer actualProcess = 0;
 
     @Override
     protected String doInBackground(Void... voids) {
 
         InputStream is = null;
         try {
-            is = new URL(sURL).openStream();
+            is = new URL(ListSources[actualProcess]).openStream();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,11 +72,24 @@ public class GetAPKs extends AsyncTask<Void, Void, String> {
         if (apkdownload != "") {
             DownloadFileFromURL installAPK = (DownloadFileFromURL) new DownloadFileFromURL().execute(apkdownload);
             installAPK.setContext(SelfStoreApplication.getAppContext());
+            actualProcess++;
+            if (actualProcess < ListSources.length ) {
+                selfRestart();
+            }
         }
     }
 
+    public void selfRestart() {
+        GetAPKs dotask = new GetAPKs();
+        dotask.ListSources = this.ListSources;
+        dotask.actualProcess = this.actualProcess;
+        dotask.execute();
+
+    }
+
+
     private String GetHost () {
-        return new RegExSnipped().GetSearch(sURL,
+        return new RegExSnipped().GetSearch(ListSources[actualProcess],
                 "(htt.*?//.*?)/");
     }
 

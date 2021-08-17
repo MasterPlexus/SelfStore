@@ -36,28 +36,14 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Start Load Selfstore", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                String sURL = "https://github.com/MasterPlexus/SelfStore/releases";
-
                 GetAPKs dotask = new GetAPKs();
-                dotask.sURL = sURL;
+                dotask.ListSources = new String[] {
+                        "https://github.com/MasterPlexus/SelfStore/releases",
+                        "https://github.com/julian-klode/dns66/releases",
+                        "https://github.com/nextcloud/news-android/releases" };
+
                 dotask.execute();
                 
-                Snackbar.make(view, "Start Load DNS66", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                
-                sURL = "https://github.com/julian-klode/dns66/releases";
-                GetAPKs dotask2 = new GetAPKs();
-                dotask2.sURL = sURL;
-                dotask2.execute();
-                
-                Snackbar.make(view, "Start Load News-App", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                
-                sURL = "https://github.com/nextcloud/news-android/releases";
-                GetAPKs dotask3 = new GetAPKs();
-                dotask3.sURL = sURL;
-                dotask3.execute();
-
             }
         });
         DrawerLayout drawer = binding.drawerLayout;
