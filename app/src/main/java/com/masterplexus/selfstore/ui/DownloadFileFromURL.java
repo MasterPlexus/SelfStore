@@ -65,16 +65,7 @@ public class DownloadFileFromURL extends AsyncTask<String, String, String> {
 
             //checkInstallPermission();
 
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            Uri apkURI = FileProvider.getUriForFile(
-                    context,
-                    context.getApplicationContext()
-                            .getPackageName() + ".provider", outputFile);
-            intent.setDataAndType(apkURI, MimeTypeMap.getSingleton().getMimeTypeFromExtension("apk"));
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            context.startActivity(intent);
-            return outputFile + " done.";
+            return outputFile.toString();
 
         } catch (Exception e) {
             Log.e("UpdateAPP", "Update error! ");
@@ -91,6 +82,7 @@ public class DownloadFileFromURL extends AsyncTask<String, String, String> {
             // dismiss the dialog after the file was downloaded
             //dismissDialog(progress_bar_type);
             HomeFragment.setText(file_url + "\n\nDownloaded.");
+            HomeFragment.setNewApptoInstall(file_url);
 
         }
 
@@ -100,6 +92,18 @@ public class DownloadFileFromURL extends AsyncTask<String, String, String> {
         } else {
             return false;
         }
+    }
+
+    private void installAPK (String file_url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        Uri apkURI = FileProvider.getUriForFile(
+                context,
+                context.getApplicationContext()
+                        .getPackageName() + ".provider", new File (file_url));
+        intent.setDataAndType(apkURI, MimeTypeMap.getSingleton().getMimeTypeFromExtension("apk"));
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        context.startActivity(intent);
     }
 
     private void requestPermissionStorage() {

@@ -50,17 +50,17 @@ public class HomeFragment extends Fragment {
         return t.isShown();
     }
 
-    public void setRunning() {
+    public static void setRunning() {
         Button t = (Button) root.findViewById(R.id.showRunner);
         t.setVisibility(View.VISIBLE);
     }
 
-    public void unsetRunning() {
+    public static void unsetRunning() {
         Button t = (Button) root.findViewById(R.id.showRunner);
         t.setVisibility(View.GONE);
     }
 
-    public void setNewApptoInstall(String newApp) {
+    public static void setNewApptoInstall(String newApp) {
         TextView t = (TextView) root.findViewById(R.id.text_buffer);
         t.setVisibility(View.VISIBLE);
         String content =t.getText().toString();
@@ -72,11 +72,24 @@ public class HomeFragment extends Fragment {
         t.setText(content);
     }
 
-    public String getNextApptoInstall() {
+    public static String getNextApptoInstall() {
         TextView t = (TextView) root.findViewById(R.id.text_buffer);
-
-        return content;
-
+        String content =t.getText().toString();
+        if (content.isEmpty()) {
+            return "";
+        } else {
+            content ="";
+            String[] all = content.split(";");
+            for (int xx=1; xx<all.length; xx++) {
+                if (content.isEmpty()) {
+                    content = all[xx];
+                } else {
+                    content = content + ";" + all[xx];
+                }
+            }
+            t.setText(content);
+            return all[0];
+        }
     }
 
     @Override
