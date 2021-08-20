@@ -18,7 +18,9 @@ import android.webkit.MimeTypeMap;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.masterplexus.selfstore.MainActivity;
 import com.masterplexus.selfstore.RegExSnipped;
+import com.masterplexus.selfstore.installQue;
 import com.masterplexus.selfstore.ui.home.HomeFragment;
 
 import java.io.File;
@@ -84,6 +86,9 @@ public class DownloadFileFromURL extends AsyncTask<String, String, String> {
             HomeFragment.setText(file_url + "\n\nDownloaded.");
             HomeFragment.setNewApptoInstall(file_url);
 
+            if (!HomeFragment.installationIsRunning()) {
+               new MainActivity().installLos();
+            }
         }
 
     private boolean checkPermissionStorage() {
@@ -92,18 +97,6 @@ public class DownloadFileFromURL extends AsyncTask<String, String, String> {
         } else {
             return false;
         }
-    }
-
-    private void installAPK (String file_url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        Uri apkURI = FileProvider.getUriForFile(
-                context,
-                context.getApplicationContext()
-                        .getPackageName() + ".provider", new File (file_url));
-        intent.setDataAndType(apkURI, MimeTypeMap.getSingleton().getMimeTypeFromExtension("apk"));
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        context.startActivity(intent);
     }
 
     private void requestPermissionStorage() {

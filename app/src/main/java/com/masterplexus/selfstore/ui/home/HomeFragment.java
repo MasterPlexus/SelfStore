@@ -37,6 +37,9 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        unsetRunning();
+
         return root;
     }
 
@@ -78,16 +81,17 @@ public class HomeFragment extends Fragment {
         if (content.isEmpty()) {
             return "";
         } else {
-            content ="";
+            String contentnew ="";
+
             String[] all = content.split(";");
             for (int xx=1; xx<all.length; xx++) {
-                if (content.isEmpty()) {
-                    content = all[xx];
+                if (contentnew.isEmpty()) {
+                    contentnew = all[xx];
                 } else {
-                    content = content + ";" + all[xx];
+                    contentnew = contentnew + ";" + all[xx];
                 }
             }
-            t.setText(content);
+            t.setText(contentnew);
             return all[0];
         }
     }
