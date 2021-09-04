@@ -71,7 +71,7 @@ public class GetAPKs extends AsyncTask<Void, Void, String> {
 
         if (apkdownload != "") {
             DownloadFileFromURL installAPK = (DownloadFileFromURL) new DownloadFileFromURL().execute(apkdownload);
-            installAPK.setContext(SelfStoreApplication.getAppContext());
+
             actualProcess++;
             if (actualProcess < ListSources.length ) {
                 selfRestart();

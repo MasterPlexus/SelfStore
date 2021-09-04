@@ -4,6 +4,7 @@ import static android.os.Build.VERSION.SDK_INT;
 
 import android.Manifest;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,11 +16,13 @@ import android.provider.Settings;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.masterplexus.selfstore.MainActivity;
 import com.masterplexus.selfstore.RegExSnipped;
+import com.masterplexus.selfstore.SelfStoreApplication;
 import com.masterplexus.selfstore.installQue;
 import com.masterplexus.selfstore.ui.home.HomeFragment;
 
@@ -30,10 +33,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class DownloadFileFromURL extends AsyncTask<String, String, String> {
-    private Context context;
-    public void setContext(Context contextf){
-        context = contextf;
-    }
+
+    private String TAG = "DownloadandInstall";
+    private Context context = SelfStoreApplication.getAppContext();
 
     @Override
     protected String doInBackground(String... arg0) {
@@ -87,9 +89,11 @@ public class DownloadFileFromURL extends AsyncTask<String, String, String> {
             HomeFragment.setNewApptoInstall(file_url);
 
             if (!HomeFragment.installationIsRunning()) {
-               new MainActivity().installLos();
+               new installQue().installLos();
             }
         }
+
+
 
     private boolean checkPermissionStorage() {
         if (SDK_INT >= Build.VERSION_CODES.R) {

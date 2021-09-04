@@ -1,7 +1,6 @@
 package com.masterplexus.selfstore;
 
 import android.app.Activity;
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,8 +12,6 @@ import android.webkit.MimeTypeMap;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
-
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -33,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private String TAG ="MainActivity";
+
+    int MYINSTALLACTIVITY =4711;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -87,74 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    private Context context = SelfStoreApplication.getAppContext();
 
-    int MYINSTALLACTIVITY =4711;
-
-    public void installAPK (String file_url) {
-        Log.i(TAG, "Start the intend of " + file_url);
-        Intent intent = new Intent(Intent.ACTION_VIEW); //ACTION_INSTALL_PACKAGE);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        Uri apkURI = FileProvider.getUriForFile(
-                context,
-                context.getApplicationContext()
-                        .getPackageName() + ".provider", new File(file_url));
-        intent.setDataAndType(apkURI, MimeTypeMap.getSingleton().getMimeTypeFromExtension("apk"));
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.putExtra(Intent.EXTRA_RETURN_RESULT, true);
-        ActivityCompat.startActivityForResult(this,intent, MYINSTALLACTIVITY, null);
-    }
-
-    @Override
-    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == MYINSTALLACTIVITY) {
-            if(resultCode == Activity.RESULT_OK){
-                String result=data.getStringExtra("result");
-                Log.i (TAG, "Result string: " + result);
-                String nextApp= HomeFragment.getNextApptoInstall();
-                if (!nextApp.isEmpty()) {
-                    Log.i (TAG, "Start next app " + nextApp);
-                    installAPK(nextApp);
-                } else {
-                    Log.i (TAG, "it was the last app, stopping!");
-                    HomeFragment.unsetRunning();
-                }
-            } else if (resultCode == Activity.RESULT_CANCELED ) {
-                Log.i (TAG, "Canceled Result, try next app");
-                String nextApp= HomeFragment.getNextApptoInstall();
-                if (!nextApp.isEmpty()) {
-                    Log.i (TAG, "Start next app " + nextApp);
-                    installAPK(nextApp);
-                } else {
-                    Log.i (TAG, "it was the last app, stopping!");
-                    HomeFragment.unsetRunning();
-                }
-            } else {
-                Log.i (TAG, "no Result, try next app");
-                String nextApp= HomeFragment.getNextApptoInstall();
-                if (!nextApp.isEmpty()) {
-                    Log.i (TAG, "Start next app " + nextApp);
-                    installAPK(nextApp);
-                } else {
-                    Log.i (TAG, "it was the last app, stopping!");
-                    HomeFragment.unsetRunning();
-                }
-            }
-        }
-    }
-
-    public void installLos() {
-        HomeFragment.setRunning();
-        String nextApp= HomeFragment.getNextApptoInstall();
-        if (!nextApp.isEmpty()) {
-            Log.i (TAG, "Start next app " + nextApp);
-            installAPK(nextApp);
-        } else {
-            Log.e (TAG, "it was the last app, but the first run - stopping!");
-            HomeFragment.unsetRunning();
-        }
-    }
 
 }
